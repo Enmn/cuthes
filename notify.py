@@ -53,3 +53,4 @@ def update():
             time.sleep(1)
             print(f'Updated to the new version: {file} !')
             print('\tUpdated, please turn it on again')
+            exit()
