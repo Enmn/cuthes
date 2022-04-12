@@ -20,13 +20,14 @@ $ python3 main.py -c <URL>
 ```console
 $ python3 main.py -h
 
-usage: main.py [-h] [-c CUT] [-u UNCUT]
+usage: cuthes.py [-h] [-c CUT] [-o OUTPUT] [-v]
 
 optional arguments:
   -h, --help            show this help message and exit
   -c CUT, --cut CUT     to cut the link
-  -u UNCUT, --uncut UNCUT
-                        to uncut the link
+  -o OUTPUT, --output OUTPUT
+                        If you want to save links to a file .txt
+  -v, --version         It's me showing the version of the project or script
 ```
 You can also decode the clip and see the link:
 ```
