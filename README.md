@@ -29,10 +29,6 @@ optional arguments:
                         If you want to save links to a file .txt
   -v, --version         It's me showing the version of the project or script
 ```
-You can also decode the clip and see the link:
-```
-$ python3 main.py -u <URL>
-```
 ## Errors
 Sometimes some sites within this project may sometimes not work, not all of them, but one site. If you have this problem, try again and if it does not work for you,<br/> perhaps the site has been closed or changed the data on it, so be careful,<br/> We hope to avoid these mistakes and try it without any problems problems
 ## Benefit
