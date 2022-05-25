@@ -37,18 +37,22 @@ $ python3 cuthes.py <URL>
 ```console
 $ python3 cuthes.py -h
 
-usage: cuthes.py [-h] [--save SAVE] [--version] [--colorless]
-                 Link [Link ...]
+usage: cuthes.py [-h] [--save SAVE] [--version] [--tor] [--proxy PROXY] [--browser BROWSER] [--colorless] LINK [LINK ...]
 
 positional arguments:
-  Link                  This is the link you want to shorten.
+  LINK                  This is the link you want to shorten.
 
 optional arguments:
   -h, --help            show this help message and exit
-  --save SAVE, -s SAVE  If you want to save links to a file .txt
-  --version, -v         It's me showing the version of the project or
-                        script
-  --colorless           Disable colors
+  --save SAVE, -s SAVE  If you use this command, you can save the results according to the file type.
+  --version, -v         It's me showing the version of the project or script.
+  --tor, -t             Connecting with Tor to make requests from Tor.
+  --proxy PROXY, -p PROXY
+                        Make requests through proxy link. socks5://127.0.0.1:1080
+  --browser BROWSER, -b BROWSER
+                        It changes the browser for requests. You can choose several browsers. (chrome or firefox or another)
+  --colorless           Disables colors terminal output.
+
 ```
 ## Errors
 Sometimes some sites within this project may sometimes not work, not all of them, but one site. If you have this problem, try again and if it does not work for you,<br/> perhaps the site has been closed or changed the data on it, so be careful,<br/> We hope to avoid these mistakes and try it without any problems problems
