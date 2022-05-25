@@ -4,6 +4,7 @@ import json
 import os
 import itertools
 import time
+import csv
 import threading
 import argparse
 try:
@@ -16,10 +17,8 @@ except ModuleNotFoundError:
     os.system('pip3 install requests')
     os.system('pip3 install requests-futures')
     os.system('pip3 install lxml')
-from resources.sites import Shorten
+from resources.sites import Shorten, request
 from notify import update
-
-
 
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -34,7 +33,7 @@ update()
 # Get the project version by reading a file .version
 def get_version():
     with open('.version', 'r') as file:
-        version = 'Cuthes ' + f'Version ({file.read()})'
+        version = 'cuthes: ' + file.read()
         return version
         
 
@@ -45,23 +44,27 @@ def get_arguments():
     using argparse
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument(dest="url", nargs="+", metavar="Link", action="store", help="This is the link you want to shorten.")
-    parser.add_argument("--save", "-s", dest="save", help="If you want to save links to a file .txt")
-    parser.add_argument('--version', '-v', action='version', version=get_version(), help="It's me showing the version of the project or script")
-    parser.add_argument('--colorless', dest='no_color', action='store_true', help='Disable colors')
+    parser.add_argument(dest="url", nargs="+", metavar="LINK", action="store", help="This is the link you want to shorten.")
+    parser.add_argument("--save", "-s", dest="save", help="If you use this command, you can save the results according to the file type.")
+    parser.add_argument('--version', '-v', action='version', version=get_version(), help="It's me showing the version of the project or script.")
+    parser.add_argument('--tor', '-t', dest='tor', action='store_true', help='Connecting with Tor to make requests from Tor.')
+    parser.add_argument('--proxy', '-p', dest='proxy', action="store", default=None, help='Make requests through proxy link. socks5://127.0.0.1:1080')
+    parser.add_argument('--browser', '-b', dest="browser", action="store", default=None, help='It changes the browser for requests. You can choose several browsers. (chrome or firefox or another)')
+    parser.add_argument('--colorless', dest='no_color', action='store_true', help='Disables colors terminal output.')
     options = parser.parse_args()
     return options
 
 
 
-done = False
 def loader():
+    global Done
+    Done = False
     print("\033[s", end="")
     for c in itertools.cycle(["⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟", "⡿"]):
-        if done:
+        if Done:
             break
         print("\033[u", end="")
-        print(f"{darkgreen + '[' + reset + c + darkgreen + ']'} {darkgreen + 'Checking The Link...' + reset}")
+        print(f"{darkgreen + '[' + reset + c + darkgreen + ']'} {darkgreen + 'Checking The URL...' + reset}")
         time.sleep(0.1)
 
 
@@ -98,14 +101,15 @@ def color(args):
 
 
 
-def sites(args):
+def sites(args=None):
+    # Here is 
     if args.url:
         global allsite
-        global done
-        cls()
+        global Done
         allsite = []
         url = args.url
         shorten = Shorten(url)
+        time.sleep(1)
         t = threading.Thread(target=loader)
         t.start()
         allsite.append(shorten.adfly())
@@ -118,54 +122,83 @@ def sites(args):
         allsite.append(shorten.cuttly())
         allsite.append(shorten.gcc())
         allsite.append(shorten.gg())
+        allsite.append(shorten.intip())
         allsite.append(shorten.isgd())
         allsite.append(shorten.linkfox())
         allsite.append(shorten.linkmngr())
+        allsite.append(shorten.linkshortner())
+        allsite.append(shorten.n9())
         allsite.append(shorten.osdb())
         allsite.append(shorten.ouoio())
         allsite.append(shorten.shortam())
         allsite.append(shorten.shortest())
+        allsite.append(shorten.shortmy())
         allsite.append(shorten.shorturl())
         allsite.append(shorten.snip())
         allsite.append(shorten.tinyurl())
         allsite.append(shorten.trimurl())
+        allsite.append(shorten.u())
         allsite.append(shorten.urlz())
-        allsite.append(shorten.v())
-        allsite.append(shorten.wiki())
-        allsite.append(shorten.y2u())
+        allsite.append(shorten.vgd())
+        allsite.append(shorten.vht())
+        allsite.append(shorten.vu())
+        allsite.append(shorten.youtube())
         allsite.append(shorten.zzb())
-        done = True
-        cls()
+        Done = True
         for sites in allsite:
             parser = json.loads(sites)
             name = parser['name']
             url = parser['url']
-            print(f'[{darkgreen + "*" + reset}] ' + darkgreen + name + ': ' + reset + url)
+            status = parser['status']
+            if status == 'true':
+               print(f'[{darkgreen + "+" + reset}] ' + darkgreen + name + ': ' + reset + url)
+            if status == 'false':
+               print(f'[{darkred + "-" + reset}] ' + darkgreen + name + ': ' + reset + url)
 
+
+
+def contextTypes(file, status, site, url, path):
+    # In this function, he selects the file type in order to save it correctly without problems
+    filename = os.path.basename(file)
+    dot = str(filename).split('.')[1]
+    if dot == "csv":
+        writer = csv.writer(path)
+        if status == 'true':
+            writer.writerow([site, url]) 
+        if status == 'false':
+            pass
+    else:
+        if status == 'true':
+            path.write(url + '\n')
+        if status == 'false':
+            path.write('')
+        
 
 
 def output(args):
     # Here if the user wants to save to a file 
     if args.save:
-        if not os.path.exists('output'):
-            os.mkdir('output')
-        with open('./output/' + args.save, 'w') as file:
-            for loo in allsite:
-                JSON = json.loads(loo)
-                name = JSON['name']
-                url = JSON['url']
-                file.write(str(name).lower() + ': ' + url + '\n')
+        os.makedirs(os.path.dirname(args.save), exist_ok=True)
+        with open(args.save, "w", newline='', encoding="utf-8") as file:
+            for sites in allsite:
+                parser = json.loads(sites)
+                site = parser['name']
+                status = parser['status']
+                url = parser['url']
+                contextTypes(args.save, status, site, url, file)
 
 
 
 def result(args):
+    request(args)
     color(args)
     sites(args)
     output(args)
-
+    
 
 
 def run():
+    # Here is Running 
     args = get_arguments()
     args = result(args)
     if args is None:
