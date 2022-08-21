@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/banner.png"  alt="logo" height="75">
+  <img src="./assets/banner.png"  alt="logo" height="100">
 </p>
 
 <h3 align="center">Cuthes</h3>
