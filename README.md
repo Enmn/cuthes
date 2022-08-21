@@ -1,15 +1,12 @@
 <p align="center">
-  <img src="./assets/banner.png" alt="logo" height="130">
+  <img src="./assets/banner.png"  alt="logo" height="75">
 </p>
 
-<h3 align="center">cuthes</h3>
+<h3 align="center">Cuthes</h3>
 
 <p align="center">
-Now you can shorten the link you want simply and with all kinds of shortened sites
-    <br>
-    <br>
-    <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Version"> <a target="_blank" href="LICENSE" title="License: MIT"><img src="https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge"></a> <a target="_blank" href='https://www.python.org/' title="Python"><img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54"></a> <a target="_blank" title="Terminal "><img src="https://img.shields.io/badge/Hyper-000000?style=for-the-badge&logo=hyper&logoColor=white"></a> <a target="_blank" title="Git"><img src="https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white"></a>
-</p>
+Now you can shorten the link you want simply and with all kinds<br>
+shortened sites
 
 ## Getting Started
 You have to follow the steps in order for everything to be fine
@@ -31,7 +28,7 @@ Then that we run cuthes
 $ cd cuthes
 
 # And then we run it
-$ python3 cuthes.py <URL>
+$ python3 cuthes.py -a <URL>
 ```
 ## Usage
 ```console
